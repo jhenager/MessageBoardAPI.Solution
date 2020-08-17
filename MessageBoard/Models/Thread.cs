@@ -8,6 +8,7 @@ namespace MessageBoard.Models
     public int ThreadId { get; set; }
     public string Title { get; set; }
     public DateTime CreationDate { get; set; }
+    public Board ParentBoard { get; set; }
     public User User { get; set; }
     public ICollection<Post> Posts { get; set; }
 

@@ -52,7 +52,7 @@ namespace MessageBoard.Controllers
       }
       if (EndDate != null)
       {
-        postQuery = postQuery.Where(p => StartDate >= p.CreationDate);
+        postQuery = postQuery.Where(p => EndDate >= p.CreationDate);
       }
       return postQuery.ToList();
     }

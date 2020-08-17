@@ -18,6 +18,21 @@ namespace MessageBoard.Controllers
       _db = db;
     }
     
+    [HttpGet]
+    public ActionResult<IEnumerable<Post>> Get(DateTime StartDate, DateTime EndDate)
+    {
+      IQueryable<Post> postQuery = _db.Posts;
+      if (StartDate != null)
+      {
+        postQuery = postQuery.Where(p => p.CreationDate >= StartDate);
+      }
+      if (EndDate != null)
+      {
+        postQuery = postQuery.Where(p => EndDate >= p.CreationDate);
+      }
+      return postQuery.ToList();
+    }
+    
     //GET for specific post
     [HttpGet("{PostId}")]
     public ActionResult<Post> Get(int PostId)

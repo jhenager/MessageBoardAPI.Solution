@@ -8,5 +8,10 @@ namespace MessageBoard.Models
         : base(options)
         {
         }
+
+    public DbSet<Board> Boards { get; set; }
+    public DbSet<Thread> Threads { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<User> Users { get; set; }
   }
 }

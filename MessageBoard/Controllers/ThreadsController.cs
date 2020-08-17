@@ -41,9 +41,20 @@ namespace MessageBoard.Controllers
     }
 
     [HttpGet("{ThreadId}/posts")]
-    public ActionResult<IEnumerable<Post>> GetAllPosts(int ThreadId)
+    public ActionResult<IEnumerable<Post>> GetAllPosts(int ThreadId, DateTime StartDate, DateTime EndDate)
     {
-      return _db.Posts.Where(p => p.ParentThreadId == ThreadId).Include(p => p.User).ToList();
+      IQueryable<Post> postQuery = _db.Posts
+        .Where(p => p.ParentThreadId == ThreadId)
+        .Include(p => p.User);
+      if (StartDate != null)
+      {
+        postQuery = postQuery.Where(p => p.CreationDate >= StartDate);
+      }
+      if (EndDate != null)
+      {
+        postQuery = postQuery.Where(p => StartDate >= p.CreationDate);
+      }
+      return postQuery.ToList();
     }
 
     [HttpPost("{ThreadId}/posts")]

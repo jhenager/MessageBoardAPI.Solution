@@ -33,6 +33,9 @@ namespace MessageBoard
       services.AddMvc()
         .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
         .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+      
+      // Register the Swagger services
+      services.AddSwaggerDocument();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +50,9 @@ namespace MessageBoard
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
       }
-
+      // Register the Swagger generator and the Swagger UI middlewares
+      app.UseOpenApi();
+      app.UseSwaggerUi3();
       // app.UseHttpsRedirection();
       app.UseMvc();
     }

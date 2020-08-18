@@ -51,7 +51,7 @@ Contact : James Henager (jameschenager@gmail.com) with any questions or concerns
 * Entity Framework
 * MySQL
 * RESTful routing
-* 
+* SWAGGER
 
 
 ## **📘 License**

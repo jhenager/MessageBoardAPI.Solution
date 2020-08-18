@@ -19,9 +19,13 @@ namespace MessageBoard.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Thread>>> Get()
+    public async Task<ActionResult<IEnumerable<Thread>>> Get([FromQuery] PaginationFilter filter)
     {
-      List<Thread> threads = await _db.Threads.OrderBy(t => t.CreationDate).ToListAsync();
+      List<Thread> threads = await _db.Threads
+        .OrderBy(t => t.CreationDate)
+        .Skip((filter.PageNumber - 1) * filter.PageSize)
+        .Take(filter.PageSize)
+        .ToListAsync();
       return threads;
     }
 

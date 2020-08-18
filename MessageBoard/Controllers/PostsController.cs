@@ -19,7 +19,7 @@ namespace MessageBoard.Controllers
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Post>>> Get(DateTime StartDate, DateTime EndDate)
+    public async Task<ActionResult<IEnumerable<Post>>> Get(DateTime StartDate, DateTime EndDate, [FromQuery] PaginationFilter filter)
     {
       IQueryable<Post> postQuery = _db.Posts;
       if (StartDate != null)
@@ -30,7 +30,10 @@ namespace MessageBoard.Controllers
       {
         postQuery = postQuery.Where(p => EndDate >= p.CreationDate);
       }
-      List<Post> queryResult = await postQuery.ToListAsync();
+      List<Post> queryResult = await postQuery
+        .Skip((filter.PageNumber - 1) * filter.PageSize)
+        .Take(filter.PageSize)
+        .ToListAsync();
       return queryResult;
     }
     

@@ -52,7 +52,3 @@ Contact : James Henager (jameschenager@gmail.com) with any questions or concerns
 * MySQL
 * RESTful routing
 * SWAGGER
-
-
-## **📘 License**
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

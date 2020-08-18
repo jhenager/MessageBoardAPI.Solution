@@ -35,7 +35,26 @@ namespace MessageBoard
         .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       
       // Register the Swagger services
-      services.AddSwaggerDocument();
+      services.AddSwaggerDocument(config =>
+      {
+        config.PostProcess = document =>
+        {
+          document.Info.Version = "v1";
+          document.Info.Title = "Message Board API";
+          document.Info.Description = "Sudo is the best, Sudo number 1";
+          document.Info.TermsOfService = "Our terms, your service";
+          document.Info.Contact = new NSwag.OpenApiContact
+          {
+            Name = "Ian Scott",
+            Email = "chesnekov@gmail.com"
+          };
+          document.Info.License = new NSwag.OpenApiLicense
+          {
+            Name = "Use under MIT",
+            Url = "https://opensource.org/licenses/MIT"
+          };
+        };
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

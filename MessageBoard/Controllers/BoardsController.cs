@@ -21,19 +21,20 @@ namespace MessageBoard.Controllers
     // GET api/boards
     // Get list of all boards
     [HttpGet]
-    public ActionResult<IEnumerable<Board>> Get()
+    public async Task<ActionResult<IEnumerable<Board>>> Get()
     {
-      return _db.Boards.ToList();
+      List<Board> boardList = await _db.Boards.ToListAsync();
+      return boardList;
     }
 
     // GET api/boards/5
     // get a specific board and all threads of that board
     [HttpGet("{id}")]
-    public ActionResult<Board> Get(int id)
+    public async Task<ActionResult<Board>> Get(int id)
     {
-      Board board = _db.Boards
+      Board board = await _db.Boards
         .Include(b => b.Threads)
-        .First(b => b.BoardId == id);
+        .FirstAsync(b => b.BoardId == id);
       return board;
     }
 
@@ -59,9 +60,9 @@ namespace MessageBoard.Controllers
     // DELETE api/values/5
     // Delete a specific board
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public async Task Delete(int id)
     {
-      Board board = _db.Boards.First(b => b.BoardId == id);
+      Board board = await _db.Boards.FirstAsync(b => b.BoardId == id);
       _db.Boards.Remove(board);
       _db.SaveChanges();
     }
@@ -69,17 +70,21 @@ namespace MessageBoard.Controllers
     // GET api/boards/{BoardId}/threads
     // Get all threads in a single board
     [HttpGet("{BoardId}/threads")]
-    public ActionResult<IEnumerable<Thread>> ThreadGet(int BoardId)
+    public async Task<ActionResult<IEnumerable<Thread>>> ThreadGet(int BoardId)
     {
-      return _db.Threads.Where(t => t.ParentBoardId == BoardId).Include(t => t.User).ToList();
+      List<Thread> theseThreads = await _db.Threads
+        .Where(t => t.ParentBoardId == BoardId)
+        .Include(t => t.User)
+        .ToListAsync();
+      return theseThreads;
     }
 
     // POST {BoardId}/threads
     // Create a new thread within a specific board
     [HttpPost("{BoardId}/threads")]
-    public void Post(int BoardId, [FromBody] Thread thread)
+    public async Task Post(int BoardId, [FromBody] Thread thread)
     {
-      Board board = _db.Boards.First(b => b.BoardId == BoardId);
+      Board board = await _db.Boards.FirstAsync(b => b.BoardId == BoardId);
       board.Threads.Add(thread);
       _db.SaveChanges();
     }
@@ -88,9 +93,9 @@ namespace MessageBoard.Controllers
     // Edit an existing thread within a specific board
 
     [HttpPut("{BoardId}/threads/{ThreadId}")]
-    public void Put(int BoardId, int ThreadId, [FromBody] Thread thread)
+    public async Task Put(int BoardId, int ThreadId, [FromBody] Thread thread)
     {
-      Board board = _db.Boards.First(b => b.BoardId == BoardId);
+      Board board = await _db.Boards.FirstAsync(b => b.BoardId == BoardId);
       thread.ThreadId = ThreadId;
       _db.Entry(thread).State = EntityState.Modified;
       _db.SaveChanges();

@@ -19,7 +19,7 @@ namespace MessageBoard.Controllers
     }
     
     [HttpGet]
-    public ActionResult<IEnumerable<Post>> Get(DateTime StartDate, DateTime EndDate)
+    public async Task<ActionResult<IEnumerable<Post>>> Get(DateTime StartDate, DateTime EndDate)
     {
       IQueryable<Post> postQuery = _db.Posts;
       if (StartDate != null)
@@ -30,30 +30,39 @@ namespace MessageBoard.Controllers
       {
         postQuery = postQuery.Where(p => EndDate >= p.CreationDate);
       }
-      return postQuery.ToList();
+      List<Post> queryResult = await postQuery.ToListAsync();
+      return queryResult;
     }
     
     //GET for specific post
     [HttpGet("{PostId}")]
-    public ActionResult<Post> Get(int PostId)
+    public async Task<ActionResult<Post>> Get(int PostId)
     {
-      return _db.Posts.Include(p => p.User).First(p => p.PostId == PostId);
+      Post post = await _db.Posts.Include(p => p.User).FirstAsync(p => p.PostId == PostId);
+      return post;
     }
 
     [HttpPut("{PostId}")]
-    public void Put(int PostId, [FromBody] Post post)
+    public void  Put(int PostId, [FromQuery] int UserId, [FromBody] Post post)
     {
-      post.PostId = PostId;
-      _db.Entry(post).State = EntityState.Modified;
-      _db.SaveChanges();
+      if (post.UserId == UserId)
+      {
+        post.PostId = PostId;
+        _db.Entry(post).State = EntityState.Modified;
+        _db.SaveChanges();
+      }
     }
 
+    //http://localhost:5000/api/posts/1?UserId={UserId}
     [HttpDelete("{PostId}")]
-    public void Delete(int PostId)
+    public async Task Delete(int PostId, [FromQuery] int UserId)
     {
-      Post postToDelete = _db.Posts.First(p => p.PostId == PostId);
-      _db.Posts.Remove(postToDelete);
-      _db.SaveChanges();
+      Post postToDelete = await _db.Posts.FirstAsync(p => p.PostId == PostId);
+      if (postToDelete.UserId == UserId)
+      {
+        _db.Posts.Remove(postToDelete);
+        _db.SaveChanges();
+      }
     }
   }
 }

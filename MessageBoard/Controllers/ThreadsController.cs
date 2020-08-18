@@ -19,29 +19,30 @@ namespace MessageBoard.Controllers
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Thread>> Get()
+    public async Task<ActionResult<IEnumerable<Thread>>> Get()
     {
-      return _db.Threads.OrderBy(t => t.CreationDate).ToList();
+      List<Thread> threads = await _db.Threads.OrderBy(t => t.CreationDate).ToListAsync();
+      return threads;
     }
 
     //api/threads/{ThreadId}
     [HttpGet("{ThreadId}")]
-    public ActionResult<Thread> Get(int ThreadId)
+    public async Task<ActionResult<Thread>> Get(int ThreadId)
     {
-      Thread thisThread = _db.Threads.Include(t => t.User).FirstOrDefault(t => t.ThreadId == ThreadId);
+      Thread thisThread = await _db.Threads.Include(t => t.User).FirstOrDefaultAsync(t => t.ThreadId == ThreadId);
       return thisThread;
     }
 
     [HttpDelete("{ThreadId}")]
-    public void Thread(int ThreadId)
+    public async Task Thread(int ThreadId)
     {
-      Thread threadToDelete = _db.Threads.FirstOrDefault(t => t.ThreadId == ThreadId);
+      Thread threadToDelete = await _db.Threads.FirstOrDefaultAsync(t => t.ThreadId == ThreadId);
       _db.Threads.Remove(threadToDelete);
       _db.SaveChanges();
     }
 
     [HttpGet("{ThreadId}/posts")]
-    public ActionResult<IEnumerable<Post>> GetAllPosts(int ThreadId, DateTime StartDate, DateTime EndDate)
+    public async Task<ActionResult<IEnumerable<Post>>> GetAllPosts(int ThreadId, DateTime StartDate, DateTime EndDate)
     {
       IQueryable<Post> postQuery = _db.Posts
         .Where(p => p.ParentThreadId == ThreadId)
@@ -54,6 +55,7 @@ namespace MessageBoard.Controllers
       {
         postQuery = postQuery.Where(p => EndDate >= p.CreationDate);
       }
+      List<Post> threadQuery = await postQuery.ToListAsync();
       return postQuery.ToList();
     }
 

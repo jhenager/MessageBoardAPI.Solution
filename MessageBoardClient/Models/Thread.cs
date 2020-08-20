@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
@@ -21,18 +23,18 @@ namespace MessageBoardClient.Models
 
     public static List<Thread> GetAll()
     {
-      ApiHelper apicallTask = ApiHelper.GetAll("threads");
+      var apicallTask = ApiHelper.GetAll("threads");
       var result = apicallTask.Result;
 
       JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
-      List<Thread> threadList = JsonConvert.DeserializeObject<Thread>(jsonResponse.ToString());
+      List<Thread> threadList = JsonConvert.DeserializeObject<List<Thread>>(jsonResponse.ToString());
 
       return threadList;
     }
 
-    public static Post GetDetails(int id)
+    public static Thread GetDetails(int id)
     {
-      ApiHelper apiCallTask = ApiHelper.Get("posts", id);
+      var apiCallTask = ApiHelper.Get("threads", id);
       var result = apiCallTask.Result;
 
       JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
@@ -41,10 +43,10 @@ namespace MessageBoardClient.Models
       return thread;
     }
 
-    public static void Post(Thread thread)
+    public static void Post(Thread thread, int boardId)
     {
       string jsonThread = JsonConvert.SerializeObject(thread);
-      var apiCallTask = ApiHelper.Post("threads", jsonThread);
+      var apiCallTask = ApiHelper.PostChild("boards", boardId, "threads", jsonThread);
     }
 
     public static void Put(Thread thread)

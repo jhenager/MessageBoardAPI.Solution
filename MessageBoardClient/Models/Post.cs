@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
@@ -16,18 +18,18 @@ namespace MessageBoardClient.Models
 
     public static List<Post> GetAll()
     {
-      ApiHelper apicallTask = ApiHelper.GetAll("posts");
+      var apicallTask = ApiHelper.GetAll("posts");
       var result = apicallTask.Result;
 
       JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
-      List<Post> postList = JsonConvert.DeserializeObject<Post>(jsonResponse.ToString());
+      List<Post> postList = JsonConvert.DeserializeObject<List<Post>>(jsonResponse.ToString());
 
       return postList;
     }
 
     public static Post GetDetails(int id)
     {
-      ApiHelper apiCallTask = ApiHelper.Get("posts", id);
+      var apiCallTask = ApiHelper.Get("posts", id);
       var result = apiCallTask.Result;
 
       JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
@@ -36,9 +38,9 @@ namespace MessageBoardClient.Models
       return post;
     }
 
-    public static void Post(Post post)
+    public static void NewPost(Post thisPost)
     {
-      string jsonPost = JsonConvert.SerializeObject(post);
+      string jsonPost = JsonConvert.SerializeObject(thisPost);
       var apiCallTask = ApiHelper.Post("posts", jsonPost);
     }
 

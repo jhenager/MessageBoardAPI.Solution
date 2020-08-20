@@ -1,0 +1,11 @@
+@model MessageBoardClient.Models.Post
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(p => p.ParentThreadId, new { @value = Model })
+  @Html.LabelFor(p => p.Title)
+  @Html.TextBoxFor(p => p.Title)
+  @Html.LabelFor(p => p.PostBody)
+  @Html.TextBoxFor(p => p.PostBody)
+  <input type="submit" value="Add Post" class="btn btn-primary" />
+}

@@ -30,6 +30,15 @@ namespace MessageBoardClient.Models
       var response = await client.ExecuteTaskAsync(request);
     }
 
+    public static async Task PostChild (string parentEndpoint, int parentId, string childName, string newObject)
+    {
+      RestClient client = new RestClient("http://localhost:5000/api");
+      RestRequest request = new RestRequest($"{parentEndpoint}/{parentId}/{childName}", Method.POST);
+      request.AddHeader("Content-Type", "application/json");
+      request.AddJsonBody(newObject);
+      var response = await client.ExecuteTaskAsync(request);
+    }
+
     public static async Task Put(string endPoint, int id, string newObject)
     {
       RestClient client = new RestClient("http://localhost:5000/api");

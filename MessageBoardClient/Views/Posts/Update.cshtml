@@ -1,0 +1,11 @@
+@model MessageBoardClient.Models.Post
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(p => p.PostId)
+  @Html.LabelFor(p => p.Title)
+  @Html.TextBoxFor(p => p.Title)
+  @Html.LabelFor(p => p.PostBody)
+  @Html.TextBoxFor(p => p.PostBody)
+  <input type="submit" value="Update Post" class="btn btn-secondary" />
+}

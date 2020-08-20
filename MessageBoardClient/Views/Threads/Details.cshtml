@@ -1,5 +1,5 @@
 @using MessageBoardClient.Models
-@model List<MessageBoardClient.Models.Thread>
+@model MessageBoardClient.Models.Thread
 
 <h1>@Html.DisplayFor(t => t.Title)</h1>
 
@@ -7,7 +7,7 @@
 @foreach(Post post in Model.Posts)
 {
   <li><ul>
-    <li>Posted by @post.User.Name on @post.CreationDate</li>
+    <li>Posted by @post.User.UserName on @post.CreationDate</li>
     <li>@post.Title</li>
     <li>@post.PostBody</li>
   </ul></li>

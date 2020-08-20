@@ -30,7 +30,7 @@ namespace MessageBoardClient.Controllers
     [HttpPost]
     public IActionResult Create(Post post)
     {
-      Post.Post(post);
+      Post.NewPost(post);
       return RedirectToAction("Index");
     }
 

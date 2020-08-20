@@ -33,7 +33,7 @@ namespace MessageBoard.Controllers
     [HttpGet("{ThreadId}")]
     public async Task<ActionResult<Thread>> Get(int ThreadId)
     {
-      Thread thisThread = await _db.Threads.Include(t => t.User).FirstOrDefaultAsync(t => t.ThreadId == ThreadId);
+      Thread thisThread = await _db.Threads.Include(t => t.User).Include(t => t.Posts).FirstOrDefaultAsync(t => t.ThreadId == ThreadId);
       return thisThread;
     }
 

@@ -24,14 +24,18 @@ namespace MessageBoardClient.Controllers
 
     public IActionResult Create(int boardId)
     {
-      return View(boardId);
+      ViewBag.BoardId = boardId;
+      return View();
     }
 
     [HttpPost]
-    public IActionResult Create(Thread thread)
+    public IActionResult Create(Thread thread, int boardId)
     {
-      Thread.Post(thread);
-      return RedirectToAction("Index");
+      thread.ParentBoardId = boardId;
+      thread.CreationDate = DateTime.Now;
+      thread.UserId = 1;
+      Thread.Post(thread, boardId);
+      return RedirectToAction("Details", "Boards", new { id = thread.ParentBoardId });
     }
 
     public IActionResult Update(int id)
@@ -44,7 +48,7 @@ namespace MessageBoardClient.Controllers
     public IActionResult Update(Thread thread)
     {
       Thread.Put(thread);
-      return RedirectToAction("Index");
+      return RedirectToAction("Details", new { id = thread.ThreadId });
     }
 
     public IActionResult Delete(int id)
@@ -57,7 +61,7 @@ namespace MessageBoardClient.Controllers
     public IActionResult Delete(Thread thread)
     {
       Thread.Delete(thread.ThreadId);
-      return RedirectToAction("Index");
+      return RedirectToAction("Details", "Boards", new { id = thread.ParentBoardId });
     }
   }
 }

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace MessageBoardClient.Models
 {
@@ -17,18 +18,18 @@ namespace MessageBoardClient.Models
 
     public static List<Board> GetAll()
     {
-      ApiHelper apicallTask = ApiHelper.GetAll("boards");
-      var result = apicallTask.Result;
+      var apiCallTask = ApiHelper.GetAll("boards");
+      var result = apiCallTask.Result;
 
       JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
-      List<Board> boardList = JsonConvert.DeserializeObject<Board>(jsonResponse.ToString());
+      List<Board> boardList = JsonConvert.DeserializeObject<List<Board>>(jsonResponse.ToString());
 
       return boardList;
     }
 
     public static Board GetDetails(int id)
     {
-      ApiHelper apiCallTask = ApiHelper.Get("boards", id);
+      var apiCallTask = ApiHelper.Get("boards", id);
       var result = apiCallTask.Result;
 
       JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);

@@ -1,0 +1,9 @@
+@model MessageBoardClient.Models.Thread
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(t => t.ThreadId)
+  @Html.LabelFor(t => t.Title)
+  @Html.TextBoxFor(t => t.Title)
+  <input type="submit" value="Update Title" class="btn btn-secondary" />
+}

@@ -1,0 +1,18 @@
+@using MessageBoardClient.Models
+@model List<MessageBoardClient.Models.Thread>
+
+<h1>@Html.DisplayFor(t => t.Title)</h1>
+
+<ul>
+@foreach(Post post in Model.Posts)
+{
+  <li><ul>
+    <li>Posted by @post.User.Name on @post.CreationDate</li>
+    <li>@post.Title</li>
+    <li>@post.PostBody</li>
+  </ul></li>
+}
+</ul>
+
+<p>@Html.ActionLink("Add A Post", "Create", "Posts", new { id = Model.ThreadId })</p>
+<p>@Html.ActionLink("Back To Board", "Details", "Boards", new { id = Model.ParentBoardId })</p>

@@ -1,0 +1,8 @@
+@model MessageBoardClient.Models.Board
+
+@using (Html.BeginForm)
+{
+  @Html.HiddenFor(b => b.BoardId)
+  @Html.HiddenFor(b => b.Title)
+  <input type="submit" value="Confirm Delete" class="btn btn-warning" />
+}

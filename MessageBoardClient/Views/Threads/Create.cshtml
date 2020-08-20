@@ -1,0 +1,10 @@
+@model MessageBoardClient.Models.Thread
+
+<h2>Create new thread</h2>
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(thread => thread.Title)
+  @Html.TextBoxFor(thread => thread.Title)
+  @Html.HiddenFor(thread => thread.ParentBoardId, new { @value=Model })
+  <input type="submit" value="Add Thread" class="btn btn-primary" />
+}

@@ -1,0 +1,10 @@
+@model List<MessageBoardClient.Models.Board>;
+@using MessageBoardClient.Models;
+
+<ul>
+@foreach (Board board in Model)
+{
+  <li>@Html.ActionLink($"{board.Title}", "Details", "Boards", new {id = board.BoardId}), Threads: @board.Threads.Count </li>
+}
+
+@Html.ActionLink($"Add board", "Create", "Boards")

@@ -1,0 +1,8 @@
+@model MessageBoardClient.Models.Board
+
+@using (Html.BeginForm())
+{
+@Html.LabelFor(model = model.Title)
+@Html.TextBoxFor(model = model.Title)
+
+}

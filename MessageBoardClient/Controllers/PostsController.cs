@@ -12,7 +12,7 @@ namespace MessageBoardClient.Controllers
   {
     public IActionResult Index()
     {
-      List<Post> allPosts = Board.GetAll();
+      List<Post> allPosts = Post.GetAll();
       return View(allPosts);
     }
 

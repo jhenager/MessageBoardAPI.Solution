@@ -12,7 +12,6 @@ namespace MessageBoard.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  [Authorize]
   public class BoardsController : ControllerBase
   {
     private MessageBoardContext _db;
@@ -26,7 +25,9 @@ namespace MessageBoard.Controllers
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Board>>> Get()
     {
-      List<Board> boardList = await _db.Boards.ToListAsync();
+      List<Board> boardList = await _db.Boards
+        .Include(boards => boards.Threads)
+        .ToListAsync();
       return boardList;
     }
 

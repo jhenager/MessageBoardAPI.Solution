@@ -43,8 +43,8 @@ namespace MessageBoardClient.Models
 
     public static void Post(Thread thread)
     {
-      string jsonBoard = JsonConvert.SerializeObject(thread);
-      var apiCallTask = ApiHelper.Post("threads", jsonBoard);
+      string jsonThread = JsonConvert.SerializeObject(thread);
+      var apiCallTask = ApiHelper.Post("threads", jsonThread);
     }
 
     public static void Put(Thread thread)

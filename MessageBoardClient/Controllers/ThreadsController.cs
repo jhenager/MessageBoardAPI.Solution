@@ -22,9 +22,9 @@ namespace MessageBoardClient.Controllers
       return View(thisThread);
     }
 
-    public IActionResult Create()
+    public IActionResult Create(int boardId)
     {
-      return View();
+      return View(boardId);
     }
 
     [HttpPost]

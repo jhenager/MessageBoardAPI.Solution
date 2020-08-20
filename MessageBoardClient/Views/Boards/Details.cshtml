@@ -1,0 +1,14 @@
+@using MessageBoardClient.Models
+@model MessageBoardClient.Models.Board
+
+<h1>@Html.DisplayFor(b => b.Title)</h1>
+
+<ul>
+  @foreach(Thread thread in Model.Threads)
+  {
+    <li>@Html.ActionLink($"{thread.Title}", "Details", "Threads", new { id= thread.ThreadId })</li>
+  }
+</ul>
+
+<p>@Html.ActionLink("Post A New Thread", "Create", "Threads", new { id = Model.BoardId })</p>
+<p>@Html.ActionLink("Back To Board Index", "Index", "Boards")</p>

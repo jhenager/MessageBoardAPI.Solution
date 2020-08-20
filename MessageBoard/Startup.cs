@@ -72,6 +72,17 @@ namespace MessageBoard
           };
         };
       });
+
+      services.AddCors(options => 
+      {
+        options.AddPolicy("CorsPolicy",
+          builder => builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+        .Build());
+      });
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +103,7 @@ namespace MessageBoard
       app.UseSwaggerUi3();
       // app.UseHttpsRedirection();
       app.UseAuthentication();
+      app.UseCors("CorsPolicy");
       app.UseMvc();
     }
   }

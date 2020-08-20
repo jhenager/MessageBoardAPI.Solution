@@ -39,11 +39,19 @@ namespace MessageBoard.Controllers
 
     private string BuildToken(UserModel user)
     {
+      var claims = new[] {
+        new Claim(JwtRegisteredClaimNames.Sub, user.Name),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim(JwtRegisteredClaimNames.Birthdate, user.Birthdate.ToString("yyyy-MM-dd")),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+      };
+
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
       var token = new JwtSecurityToken(_config["Jwt:Issuer"],
         _config["Jwt:Issuer"],
+        claims,
         expires: DateTime.Now.AddMinutes(30),
         signingCredentials: creds);
 

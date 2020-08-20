@@ -40,7 +40,18 @@ namespace MessageBoardClient.Models
     public static void Post(Board board)
     {
       string jsonBoard = JsonConvert.SerializeObject(board);
-      var apiCallTask = ApiHelper.Post(jsonBoard);
+      var apiCallTask = ApiHelper.Post("boards", jsonBoard);
+    }
+
+    public static void Put(Board board)
+    {
+      string jsonBoard = JsonConvert.SerializeObject(board);
+      var apiCallTask = ApiHelper.Put("boards", board.BoardId, jsonBoard);
+    }
+
+    public static void Delete(int id)
+    {
+      var apiCallTask = ApiHelper.Delete("boards", id);
     }
   }
 }

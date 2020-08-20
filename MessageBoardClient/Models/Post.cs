@@ -38,10 +38,10 @@ namespace MessageBoardClient.Models
       return post;
     }
 
-    public static void NewPost(Post thisPost)
+    public static void NewPost(Post thisPost, int threadId)
     {
       string jsonPost = JsonConvert.SerializeObject(thisPost);
-      var apiCallTask = ApiHelper.Post("posts", jsonPost);
+      var apiCallTask = ApiHelper.PostChild("threads", threadId, "posts", jsonPost);
     }
 
     public static void Put(Post post)

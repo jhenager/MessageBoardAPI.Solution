@@ -1,8 +1,7 @@
 @model MessageBoardClient.Models.Post
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Posts", new { threadId = ViewBag.ThreadId }))
 {
-  @Html.HiddenFor(p => p.ParentThreadId, new { @value = Model })
   @Html.LabelFor(p => p.Title)
   @Html.TextBoxFor(p => p.Title)
   @Html.LabelFor(p => p.PostBody)
